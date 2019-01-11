@@ -1,0 +1,11 @@
+.Navbar__brand {
+    text-decoration: none;
+    font-size: 22px;
+    padding-top: 70px;
+    text-align: center;
+    color: #09c592;
+}
+
+.Navbar__brand:hover {
+    color: #07a47a;
+}

@@ -1,0 +1,8 @@
+.Content {
+    max-width: 1440px;
+    min-height: 100vh;
+    /* background-color: red; */
+    margin: 0 auto;
+    margin-top: 20px;
+    padding: 0 10%;
+}
