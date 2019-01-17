@@ -1,75 +1,53 @@
 import React from 'react';
 import './Box.css';
 
+import capitalize from '../../../../helpers/capitalize_each_word';
+
 const Box = (props) => {
 
-    let synonymsRender, translationsRender, examplesRender = [];
+    let synonymsRender, examplesRender = [];
 
-    const { word_type, synonyms, translations, examples } = props;
+    const { words, word_type, synonyms, examples } = props;
 
-    if (synonyms)
-        synonymsRender = (
-            <div className="Box__sub">
-                <div className="Box__sub--title">Synonyms</div>
-                <div className="Box__content">
-                    {
-                        synonyms.map((syn, id) => {
-                            return <p key={id}>{syn}</p>
-                        })
-                    }
-                </div>
+    synonymsRender = (
+        <div className="Box__sub">
+            <div className="Box__sub--title">Sinonim</div>
+            <div className="Box__content">
+                {
+                    synonyms.map((syn, id) => {
+                        return <span className="Box__content--synonym" key={id}>{syn}</span>
+                    })
+                }
             </div>
-        )
+        </div>
+    )
 
-    if (translations)
-        translationsRender = (
-            <div className="Box__sub">
-                <div className="Box__sub--title">Translations</div>
-                <div className="Box__content">
-                    {
-                        translations.map((cur, id) =>
-                            <div key={id}>
-                                <p>  {cur.word_type} </p>
-                                {
-                                    cur.translation.map(
-                                        (el, i) => <p key={i} >{el}</p>
-                                    )
-                                }
-
-                            </div>
-                        )
-                    }
-                </div>
+    examplesRender = (
+        <div className="Box__sub">
+            <div className="Box__sub--title">Contoh Kalimat</div>
+            <div className="Box__content">
+                {
+                    examples.map((example, id) => {
+                        return <div className="Example" key={id}>
+                            <p className="Example__word">"{ example.word }"</p>
+                            <p className="Example__translation">"{ example.translation }"</p>
+                        </div>
+                    })
+                }
             </div>
-        )
-
-    if (examples)
-        examplesRender = (
-            <div className="Box__sub">
-                <div className="Box__sub--title">Examples</div>
-                <div className="Box__content">
-                    {
-                        examples.map((example, id) => {
-                            return <p key={id}>
-                                {example.word} {example.translation}
-                            </p>
-                        })
-                    }
-                </div>
-            </div>
-        )
+        </div>
+    )
 
     return (
         <div className="Box">
             <div className="Box__title">
-                {word_type}
+                <span>{ capitalize( word_type ) } - </span>
+                <span>{  words  }</span>
             </div>
 
-            { synonymsRender }
+            { synonyms.length > 0 ? synonymsRender : null }
 
-            { translationsRender }
-
-            { examplesRender }
+            { examples.length > 0 ? examplesRender : null }
 
         </div>
     )

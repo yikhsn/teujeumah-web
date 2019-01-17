@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import './Result.css';
 import Box from './Box/Box';
+import Translation from './Box/Translation';
 
 class Result extends Component{
     render() {
         
-        const { type, word } = this.props.data;
+        const { type, words } = this.props.data;
         
         const renderBoxLeft = type.map( (cur, id) =>     
             <Box 
                 key         = { id }
-                word        = { word }
+                words        = { words }
                 word_type   = { cur.word_type }
                 synonyms    = { cur.synonyms }
                 examples    = { cur.examples }
@@ -30,8 +31,9 @@ class Result extends Component{
                     { renderBoxLeft }
                 </div>
                 <div className="Result__right">
-                    <Box 
+                    <Translation 
                         translations = { translations }
+                        words = { words }
                     />
                 </div>
             </div>

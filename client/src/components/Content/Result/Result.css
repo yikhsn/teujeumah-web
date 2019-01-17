@@ -1,17 +1,16 @@
 .Result {
     margin-top: 10px;
-    /* background-color: red; */
     width: 100%;
+    display: flex;
+    align-items: flex-start;
 }
 
 .Result__left{
     width: 49.5%;
     margin-right: .5%;
-    display: inline-block;
 }
 
 .Result__right{
     width: 49.5%;
     margin-left: .5%;
-    display: inline-block;
 }
