@@ -4,7 +4,7 @@ import './Input.css';
 const Input = (props) => {
     return(
         <div className="Input">
-            <textarea name="word" id="word"/>
+            <textarea name="word" id="word" onChange={ props.inputChanged } />
         </div>
     )
 }

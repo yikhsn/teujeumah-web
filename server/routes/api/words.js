@@ -4,13 +4,17 @@ const router = express.Router();
 
 // define schema for the database
 const wordSchema = new mongoose.Schema({
-    word: { type: String, required: true },
-    wordType: { type: String, required: true },
-    wordExample: { type: String }
+    words: { type: String, required: true },
+    word_type: { type: String, required: true },
+
+    // sometimes there more than one translation, store it in an array
+    translations: { type: Array, required: true },
+    synonyms: { type: Array },
+    examples: { type: Array }
 });
 
 // define index for the existing schema
-wordSchema.index({ word: 'text' });
+wordSchema.index({'$**': 'text'});
 
 // create model with the 'Words' collection
 // and the wordSchema was defined before
@@ -24,9 +28,11 @@ router.get('/', async(req, res) => {
 
 router.post('/', async(req, res) => {
     let word = new Word({
-        word: req.body.word,
-        wordType: req.body.wordType,
-        wordExample: req.body.wordExample
+        words: req.body.words,
+        word_type: req.body.word_type,
+        translations: req.body.translations,
+        synonyms: req.body.synonyms,
+        examples: req.body.examples
     });
 
     try {
@@ -41,9 +47,11 @@ router.post('/', async(req, res) => {
 
 router.put('/:id', (req, res) => {
     const word = Word.findByIdAndUpdate(req.params.id, {
-        word: req.body.word,
-        wordType: req.body.wordType,
-        wordExample: req.body.wordExample
+        words: req.body.words,
+        word_type: req.body.word_type,
+        translations: req.body.translations,
+        synonyms: req.body.synonyms,
+        examples: req.body.examples
     },{
         new: true
     });
@@ -70,7 +78,17 @@ router.get('/:id', async(req, res) => {
 });
 
 router.get('/search/:query', async(req, res) => {
-    const word = await Word.find( { $text : { $search : req.params.query } } );
+    let word;
+
+    try {
+        word = await Word.find({ 
+            $text: { 
+                $search : req.params.query
+            } 
+        });
+    } catch (error) {
+        console.log(error);
+    }
 
     if(!word.length) return res.status(404).send('The given word not found');
 
@@ -81,14 +99,11 @@ router.get('/search/text/:query', async(req, res) => {
     const q = req.params.query;
 
     const word = await Word.find( { 
-        "word": {
+        "words": {
             "$regex": new RegExp(q, 'i')
         } 
-    }).limit(10);
+    }).limit(5);
 
-    const type = typeof(word);
-
-    console.log(word.length);
 
     if (!word.length) return res.status(404).send('The given query not found');
 
