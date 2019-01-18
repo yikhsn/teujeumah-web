@@ -1,6 +1,6 @@
 .Output {
     width: 50%;
-    display: inline-block;
+    display: flex;
 }
 
 .Output textarea {
@@ -21,4 +21,23 @@
     font-size: 20px;
     color: #444444;
     line-height: 1.5;
+}
+
+@media screen and (max-width: 1024px){
+    .Output textarea {
+        border-radius: 0;
+    }
+}
+
+@media screen and (max-width: 425px){
+    .Output {
+        width: 100%;
+    }
+
+    .Output textarea {
+        /* border: 1px solid #444444; */
+        height: 150px;
+        background-color: #08b586;
+        color: #ffffff;
+    }
 }

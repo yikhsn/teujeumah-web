@@ -1,6 +1,6 @@
 .Input {
     width: 50%;
-    display: inline-block;
+    display: flex;
 }
 
 .Input textarea {
@@ -26,4 +26,21 @@
 .Input textarea:focus, .Input textarea:hover {
     border-color: #9ffbe2;
     border-width: 1px;
-} 
+}
+
+@media screen and (max-width: 1024px){
+    .Input textarea {
+        border-radius: 0;
+    }
+}
+
+@media screen and (max-width: 425px){
+    .Input {
+        width: 100%;
+    }
+
+    .Input textarea {
+        border: 0;
+        height: 150px;
+    }
+}

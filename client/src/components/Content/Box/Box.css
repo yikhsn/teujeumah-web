@@ -1,5 +1,19 @@
 .BoxInput {
     display: flex;
+    justify-content: center;
     width: 100%;
-    margin: 20px auto;
+    margin: 30px 0;
+}
+
+@media screen and (max-width: 768px){
+    .BoxInput {
+        margin: 10px 0 10px 0;
+    }
+}
+
+@media screen and (max-width: 425px){
+    .BoxInput {
+        flex-direction: column;
+        margin: 0 0 10px 0;
+    }
 }
