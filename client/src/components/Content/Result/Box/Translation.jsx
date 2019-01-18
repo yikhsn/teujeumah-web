@@ -36,7 +36,7 @@ const Translation = (props) => {
             <div className="Translation">
                 <div className="Translation__title">
                     <span> Terjemahan dari - </span>
-                    <span> { words } </span>
+                    <span className="Translation__title--word"> { words } </span>
                 </div>
 
                 { translationsRender }

@@ -4,23 +4,25 @@
     padding: 20px;
     margin-bottom: 10px;
     border-radius: 10px;
-    border: 2px solid #eee;
-
-    font-size: 14px;
-    line-height: 1.8;
+    border: 1px solid #dedede;
+    
+    line-height: 1.5;
 
 }
 
 .Translation__title {
     font-size: 17px;
-    color: #666666;
+    color: #888888;
     margin-bottom: 15px;
 }
 
+.Translation__title--word {
+    color: #08b586;
+}
+
 .Translation__content {
-    font-size: 16px;
-    color: #222222;
-    margin-bottom: 10px;
+    font-size: 15px;
+    margin-bottom: 15px;
 }
 
 .Translation__content:last-child {
@@ -28,9 +30,10 @@
 }
 
 .Translation__content--type {
-    color: #09c592;
+    color: #08b586;
+    font-weight: 600;
 }
 
 .Translation__content--word {
-    color: #444444;
+    color: #666666;
 }

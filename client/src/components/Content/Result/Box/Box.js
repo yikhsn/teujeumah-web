@@ -11,7 +11,7 @@ const Box = (props) => {
 
     synonymsRender = (
         <div className="Box__sub">
-            <div className="Box__sub--title">Sinonim</div>
+            <div className="Box__sub--title">Sinonim:</div>
             <div className="Box__content">
                 {
                     synonyms.map((syn, id) => {
@@ -24,7 +24,7 @@ const Box = (props) => {
 
     examplesRender = (
         <div className="Box__sub">
-            <div className="Box__sub--title">Contoh Kalimat</div>
+            <div className="Box__sub--title">Contoh kalimat:</div>
             <div className="Box__content">
                 {
                     examples.map((example, id) => {
@@ -42,7 +42,7 @@ const Box = (props) => {
         <div className="Box">
             <div className="Box__title">
                 <span>{ capitalize( word_type ) } - </span>
-                <span>{  words  }</span>
+                <span className="Box__title--word">{  words  }</span>
             </div>
 
             { synonyms.length > 0 ? synonymsRender : null }

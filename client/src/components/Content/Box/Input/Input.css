@@ -10,13 +10,20 @@
     width: 100%;
     height: 200px;
     border-radius: 20px 0 0 20px;
-    border: 1px solid #dededede;
+    border-width: 1px 0 1px 1px;
+    border-style: solid;
+    border-color: #dedede;
     box-shadow: 5px 5px 5px #eee;
 
-    padding: 10px 20px;
+    padding: 20px 30px;
 
     font-size: 20px;
-    color: #222222;
+    color: #444444;
     font-weight: 500;
     line-height: 1.5;
 }
+
+.Input textarea:focus, .Input textarea:hover {
+    border-color: #9ffbe2;
+    border-width: 1px;
+} 

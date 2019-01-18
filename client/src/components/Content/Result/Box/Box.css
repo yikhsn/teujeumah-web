@@ -4,11 +4,9 @@
     padding: 20px;
     margin-bottom: 10px;
     border-radius: 10px;
-    border: 2px solid #eee;
+    border: 1px solid #dedede;
 
-    font-size: 14px;
-    line-height: 1.8;
-
+    line-height: 1.5;
 }
 
 .Box:last-child {
@@ -17,12 +15,17 @@
 
 .Box__title {
     font-size: 17px;
-    color: #666666;
+    font-weight: 500;
+    color: #888888;
     margin-bottom: 15px;
 }
 
+.Box__title--word {
+    color: #08b586;
+}
+
 .Box__sub {
-    margin-bottom: 15px;
+    margin-bottom: 30px;
 }
 
 .Box__sub:last-child {
@@ -30,8 +33,10 @@
 }
 
 .Box__sub--title {
-    font-size: 16px;
-    color: #09c592;
+    font-size: 15px;
+    color: #08b586;
+    font-weight: 600;
+    margin-bottom: 5px;
 }
 
 .Box__content {
@@ -41,12 +46,20 @@
 }
 
 .Box__content--synonym {
-    background-color: #fafafa;
-    font-size: 15px;
-    padding: 2px 10px;
-    border: 1px solid #eeeeee;
+    background-color: #fcfcfc;
+    padding: 3px 13px;
+    border: 1px solid #dedede;
     border-radius: 15px;
     margin-right: 10px;
+    
+    font-size: 14px;
+    color: #888888;
+}
+
+.Box__content--synonym:hover {
+    border: 1px solid #9ffbe2;
+    background-color: #ffffff;
+    color: #666666;
 }
 
 .Example {
@@ -58,10 +71,12 @@
 }
 
 .Example__word {
-    font-size: 17px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #666666;
 }
 
 .Example__translation {
-    font-size: 15px;
+    font-size: 14px;
     color: #666666;
 }
