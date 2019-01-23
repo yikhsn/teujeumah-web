@@ -12,7 +12,7 @@ class Content extends Component {
     }
 
     getData = (query) => {
-        axios.get('http://localhost:3001/api/words/search/text/' + query )
+        axios.get('/api/words/search/' + query )
             .then( data => {
                 const result = data.data;
                 

@@ -14,7 +14,7 @@ const wordSchema = new mongoose.Schema({
 });
 
 // define index for the existing schema
-wordSchema.index({'$**': 'text'});
+wordSchema.index({words: 'text'});
 
 // create model with the 'Words' collection
 // and the wordSchema was defined before
@@ -82,9 +82,10 @@ router.get('/search/:query', async(req, res) => {
 
     try {
         word = await Word.find({ 
-            $text: { 
-                $search : req.params.query
-            } 
+            words: req.params.query
+            // $text: { 
+            //     $search : req.params.query
+            // } 
         });
     } catch (error) {
         console.log(error);
@@ -97,7 +98,7 @@ router.get('/search/:query', async(req, res) => {
 
 router.get('/search/text/:query', async(req, res) => {
     const q = req.params.query;
-
+    
     const word = await Word.find( { 
         "words": {
             "$regex": new RegExp(q, 'i')
