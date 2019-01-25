@@ -10,7 +10,7 @@ const words = require('./routes/api/words');
 
 
 // mongoDB Setup and Connection
-const dbRoute = 'mongodb://localhost/kamus-aceh';
+const dbRoute = 'mongodb://localhost/kamus-aceh-prod';
 
 mongoose.connect(
     dbRoute,

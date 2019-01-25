@@ -80,17 +80,13 @@ router.get('/:id', async(req, res) => {
 router.get('/search/:query', async(req, res) => {
     let word;
 
-    try {
-        word = await Word.find({ 
-            words: req.params.query
-            // $text: { 
-            //     $search : req.params.query
-            // } 
-        });
-    } catch (error) {
-        console.log(error);
-    }
-
+    word = await Word.find({ 
+        words: req.params.query
+        // $text: { 
+        //     $search : req.params.query
+        // } 
+    });
+  
     if(!word.length) return res.status(404).send('The given word not found');
 
     res.send(word);

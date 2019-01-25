@@ -5,7 +5,7 @@ const Output = (props) => {
 
     const {words, translation } = props.data;
     
-    const output = translation ? translation : words;
+    const output = translation.length ? translation.join(' ') : words;
 
     return(
         <div className="Output">
