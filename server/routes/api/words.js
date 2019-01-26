@@ -1,24 +1,6 @@
-const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
-
-// define schema for the database
-const wordSchema = new mongoose.Schema({
-    words: { type: String, required: true },
-    word_type: { type: String, required: true },
-
-    // sometimes there more than one translation, store it in an array
-    translations: { type: Array, required: true },
-    synonyms: { type: Array },
-    examples: { type: Array }
-});
-
-// define index for the existing schema
-wordSchema.index({words: 'text'});
-
-// create model with the 'Words' collection
-// and the wordSchema was defined before
-const Word = mongoose.model('Word', wordSchema);
+const { Word, validate } = require('../../models/word');
 
 // all routes
 router.get('/', async(req, res) => {
@@ -26,7 +8,15 @@ router.get('/', async(req, res) => {
     res.send(word);
 });
 
+// post method to add new data to the collection
 router.post('/', async(req, res) => {
+
+    // validate if the request body is valid as define on schema
+    const { error } = validate(req.body);
+    if(error) return res.status(400).send(error.details[0].message);
+    
+
+    // create new object by the request data
     let word = new Word({
         words: req.body.words,
         word_type: req.body.word_type,
@@ -35,6 +25,7 @@ router.post('/', async(req, res) => {
         examples: req.body.examples
     });
 
+    // save the data wrap it into the catch block
     try {
         word = await word.save();
         console.log(word);
@@ -46,6 +37,9 @@ router.post('/', async(req, res) => {
 });
 
 router.put('/:id', (req, res) => {
+    const { error } = validate(req.body);
+    if(error) return res.status(400).send(error.details[0].message);
+
     const word = Word.findByIdAndUpdate(req.params.id, {
         words: req.body.words,
         word_type: req.body.word_type,
@@ -80,12 +74,17 @@ router.get('/:id', async(req, res) => {
 router.get('/search/:query', async(req, res) => {
     let word;
 
-    word = await Word.find({ 
-        words: req.params.query
-        // $text: { 
-        //     $search : req.params.query
-        // } 
-    });
+    try {
+        word = await Word.find({ 
+            words: req.params.query
+            // $text: { 
+            //     $search : req.params.query
+            // } 
+        });
+        console.log(word);
+    } catch (error) {
+        console.log(error.message);
+    }
   
     if(!word.length) return res.status(404).send('The given word not found');
 
