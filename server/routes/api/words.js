@@ -1,15 +1,20 @@
 const express = require('express');
 const router = express.Router();
+
 const { Word, validate } = require('../../models/word');
 
+// middleware
+const auth = require('../../middleware/auth');
+const admin = require('../../middleware/admin');
+
 // all routes
-router.get('/', async(req, res) => {
+router.get('/', [auth, admin], async(req, res) => {
     const word = await Word.find();
     res.send(word);
 });
 
 // post method to add new data to the collection
-router.post('/', async(req, res) => {
+router.post('/', auth, async(req, res) => {
 
     // validate if the request body is valid as define on schema
     const { error } = validate(req.body);
@@ -36,7 +41,7 @@ router.post('/', async(req, res) => {
     res.send(word);
 });
 
-router.put('/:id', (req, res) => {
+router.put('/:id', auth, (req, res) => {
     const { error } = validate(req.body);
     if(error) return res.status(400).send(error.details[0].message);
 
@@ -55,7 +60,7 @@ router.put('/:id', (req, res) => {
     res.send(genre);
 });
 
-router.delete('/:id', async(req, res) => {
+router.delete('/:id', auth, async(req, res) => {
     const word = await Word.findByIdAndRemove(req.params.id);
 
     if(!word.length) return res.status(404).send('The given ID not found');
@@ -63,7 +68,7 @@ router.delete('/:id', async(req, res) => {
     res.send(word);
 });
 
-router.get('/:id', async(req, res) => {
+router.get('/:id', auth, async(req, res) => {
     const word = await Word.findById(req.params.id);
 
     if(!word.length) return res.status(404).send('The given ID not Found');
@@ -71,7 +76,7 @@ router.get('/:id', async(req, res) => {
     res.send(word);
 });
 
-router.get('/search/:query', async(req, res) => {
+router.get('/search/:query', auth, async(req, res) => {
     let word;
 
     try {
@@ -91,7 +96,7 @@ router.get('/search/:query', async(req, res) => {
     res.send(word);
 });
 
-router.get('/search/text/:query', async(req, res) => {
+router.get('/search/text/:query', auth, async(req, res) => {
     const q = req.params.query;
     
     const word = await Word.find( { 

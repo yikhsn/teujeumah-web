@@ -19,17 +19,13 @@ if (!config.get('jwtPrivateKey')){
 // mongoDB Setup and Connection
 const dbRoute = 'mongodb://localhost/kamus-aceh-prod';
 
-mongoose.connect(
-    dbRoute,
-    { useNewUrlParser: true }
-);
+mongoose.connect( dbRoute, { useNewUrlParser: true } );
 
 let db = mongoose.connection;
 
 db.once('open', () => console.log('Connected to MongoDB'));
 
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());

@@ -1,19 +1,18 @@
 const express = require('express');
 const bcyrpt = require('bcrypt');
-const config = require('bcrypt');
-const jwt = require('jsonwebtoken');
+
+const auth = require('../../middleware/auth');
 
 const router = express.Router();
 const { User, validate } = require('../../models/user');
 
-// all routes
-router.get('/', async(req, res) => {
-    const user = await User.find();
+router.get('/profile', auth, async(req, res) => {
+    const user = await User.findById(req.user._id);
+
     res.send(user);
-});
+})
 
 router.post('/', async(req, res) => {
-
     // validate the user data and send res '404' status
     const { error } = validate(req.body);
     if(error) return res.status(400).send(error.details[0].message);
@@ -42,11 +41,9 @@ router.post('/', async(req, res) => {
     }
 
     // create token with json web token based on user _id on the database
-    // NOTE : ENVIRONMENT VARIABLE FOR "jwtPrivateKey" IS NOT WORKING YET
-    const token = jwt.sign( { _id: user._id }, config.get('jwtPrivateKey'));
+    const token = user.generateAuthToken();
 
     // send respon body and header to the client
-    // NOTE : THE HEADER IMPLEMENTATION IS NOT WORKING YET
     res.header('x-auth-token', token).send(user);
 });
 

@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
+const config = require('config');
 const Joi = require('joi');
 
-const User = mongoose.model('User', new mongoose.Schema({
+const userSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
@@ -20,11 +22,19 @@ const User = mongoose.model('User', new mongoose.Schema({
         required: true,
         minlength: 5,
         maxlength: 255, 
-    }
-}));
+    },
+    isAdmin: Boolean
+});
+
+userSchema.methods.generateAuthToken = function() {
+    // NOTE : ENVIRONMENT VARIABLE FOR "jwtPrivateKey" IS NOT WORKING YET
+    const token = jwt.sign( { _id: this._id, isAdmin: this.isAdmin }, config.get('jwtPrivateKey'));
+    return token;
+}
+
+const User = mongoose.model('User', userSchema);
 
 function validateUser(word){
-
     const schema = {
         name: Joi.string().min(5).max(50).required(),
         email: Joi.string().min(5).max(255).required().email(),
@@ -32,8 +42,7 @@ function validateUser(word){
     }
 
     return Joi.validate(word, schema);
-
 }
 
-exports.User = User;
-exports.validate = validateUser;
+module.exports.User = User;
+module.exports.validate = validateUser;
