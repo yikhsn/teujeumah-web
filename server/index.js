@@ -1,3 +1,5 @@
+const error = require('./middleware/error');
+
 const express = require('express');
 const mongoose = require('mongoose');
 const logger = require('morgan');
@@ -5,6 +7,7 @@ const bodyParser = require('body-parser');
 const config = require('config');
 
 const app = express();
+
 
 // varible to save api routes word routes
 const words = require('./routes/api/words');
@@ -36,6 +39,8 @@ app.use(logger('dev'));
 app.use('/api/words', words);
 app.use('/api/users', users);
 app.use('/api/auth', auth);
+
+app.use(error); 
 
 // set port and launch node into a port
 const port = process.env.PORT || 3001;

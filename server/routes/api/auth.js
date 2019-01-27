@@ -1,3 +1,5 @@
+const asyncMiddleware = require('../../middleware/async');
+
 const express = require('express');
 const router = express.Router();
 
@@ -6,7 +8,7 @@ const bcyrpt = require('bcrypt');
 
 const { User } = require('../../models/user');
 
-router.post('/', async(req, res) => {
+router.post('/',  asyncMiddleware( async(req, res) => {
     // validate the user data and send res '404' status
     const { error } = validate(req.body);
     if(error) return res.status(400).send(error.details[0].message);
@@ -25,7 +27,7 @@ router.post('/', async(req, res) => {
 
     // send token to the user as login's response
     res.send(token); 
-});
+}));
 
 // function to validate the user input request is correct
 function validate(req){

@@ -1,3 +1,5 @@
+const asyncMiddleware = require('../../middleware/async');
+
 const express = require('express');
 const bcyrpt = require('bcrypt');
 
@@ -6,13 +8,13 @@ const auth = require('../../middleware/auth');
 const router = express.Router();
 const { User, validate } = require('../../models/user');
 
-router.get('/profile', auth, async(req, res) => {
+router.get('/profile', auth, asyncMiddleware( async(req, res) => {
     const user = await User.findById(req.user._id);
 
     res.send(user);
-})
+}));
 
-router.post('/', async(req, res) => {
+router.post('/', asyncMiddleware( async(req, res) => {
     // validate the user data and send res '404' status
     const { error } = validate(req.body);
     if(error) return res.status(400).send(error.details[0].message);
@@ -33,18 +35,13 @@ router.post('/', async(req, res) => {
     user.password = await bcyrpt.hash(user.password, salt);
 
     // save the data wrap it into the catch block
-    try {
-        user = await user.save();
-        console.log(user);
-    } catch (error) {
-        console.log(error.message);
-    }
-
+    user = await user.save();
+ 
     // create token with json web token based on user _id on the database
     const token = user.generateAuthToken();
 
     // send respon body and header to the client
     res.header('x-auth-token', token).send(user);
-});
+}));
 
 module.exports = router;
