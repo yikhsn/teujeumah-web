@@ -10,8 +10,8 @@ class Navbar extends Component {
         return (
             <div className="Navbar">
                 <NavbarBrand />
-                <NavbarMenu link='/tentang' text='Tentang'/>
                 <NavbarMenu link='/terms' text='Terms'/>
+                <NavbarMenu link='/about' text='Tentang'/>
             </div>
         );
     }

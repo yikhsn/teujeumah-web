@@ -1,9 +1,10 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './NavbarBrand.css';
 
 const NavbarBrand = (props) => {
     return(
-        <a href="/" className="Navbar__brand">Teujeumah</a>
+        <Link to="/" className="Navbar__brand">Teujeumah</Link>
     )
 }
 

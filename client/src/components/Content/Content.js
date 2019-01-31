@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import axios from '../../axios';
 import './Content.css';
 import Box from './Box/Box';
 import Result from './Result/Result';
@@ -14,7 +14,7 @@ class Content extends Component {
     // this function will used to get translation and all words atribute 
     // if user input just one word
     getData = (query) => {
-        axios.get('/api/words/search/' + query )
+        axios.get(query )
             .then( data => {
                 const result = data.data;
                 
@@ -30,38 +30,40 @@ class Content extends Component {
             });
     }
 
-
     // this funnction will be called if user input more than one word
     // check and by space. each word will be split by space and each
     // word would check their translations 
-    getDataMutiple = (data) => {
-        let queries = data.split(' ');
+    getDataMutiple =  (data) => {
+        let queries = data.split(' ').map( cur => cur.trim() );
 
-        queries.forEach( query   => {
-            this.getTranslation(query);
-        })
+        for (let query of queries) {
+
+            this.getTranslation(query).then( (data) => {
+                const translation = this.state.translation;
+                
+                translation.push(data);
+
+                this.setState({ translation });
+            }).catch(err => {
+                
+                console.log('there is an error');
+            })
+
+        }
     }
 
     // this function use as function that would do translation task
     // if the user input more than word on input column
     getTranslation = (query) => {
-        axios.get('/api/words/search/' + query)
-            .then(data => {
-                let translation = this.state.translation;
-
-                translation.push(data.data[0].translations[0]);
-
-                this.setState( { translation });
+        return axios.get(query)
+            .then( data => {              
+                return data.data[0].translations[0];
             })
             .catch(error => {
-
-                let translation = this.state.translation;
-
-                translation.push(query);
-
-                this.setState( { translation });
-            })
+                return query;
+            });
     }
+
 
     // this function will see bunch of 'translation' array property in 'type' state
     // from the backend, this function will set one 'translation' from that data

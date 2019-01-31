@@ -1,11 +1,12 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './NavbarMenu.css';
 
 const Menu = (props) => {
     return(
-        <a className="Navbar_menu" href={props.link}>
-            {props.text}
-        </a>
+        <Link className="Navbar_menu" to={props.link}>
+            {props.text}    
+        </Link>
     )
 }
 

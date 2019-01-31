@@ -72,7 +72,7 @@ router.get('/:id', auth, asyncMiddleware( async(req, res) => {
 
 
 // full search route method
-router.get('/search/:query', auth, asyncMiddleware( async(req, res) => {
+router.get('/search/:query', asyncMiddleware( async(req, res) => {
     const word = await Word.find({ 
         words: req.params.query
         // $text: { $search : req.params.query } 

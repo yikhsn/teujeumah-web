@@ -20,7 +20,7 @@ if (!config.get('jwtPrivateKey')){
 }
 
 // mongoDB Setup and Connection
-const dbRoute = 'mongodb://localhost/kamus-aceh-prod';
+const dbRoute = 'mongodb://localhost/kamus-aceh-db';
 
 mongoose.connect( dbRoute, { useNewUrlParser: true } );
 
