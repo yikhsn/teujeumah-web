@@ -78,7 +78,7 @@ router.get('/search/:query', asyncMiddleware( async(req, res) => {
         // $text: { $search : req.params.query } 
     });
 
-    if(!word.length) return res.status(404).send('The given word not found');
+    // if(!word.length) return res.status(404).send('The given word not found');
 
     res.send(word);
 }));

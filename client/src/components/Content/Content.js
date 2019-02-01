@@ -35,29 +35,41 @@ class Content extends Component {
     // word would check their translations 
     getDataMutiple =  (data) => {
         let queries = data.split(' ').map( cur => cur.trim() );
-
+        
         for (let query of queries) {
+            
+            // checking if the query (array element) ain't an empty string
+            if (query){
 
-            this.getTranslation(query).then( (data) => {
-                const translation = this.state.translation;
-                
-                translation.push(data);
+                // run get the translation of the current query (arraay element)
+                this.getTranslation(query).then( (data) => {
 
-                this.setState({ translation });
-            }).catch(err => {
-                
-                console.log('there is an error');
-            })
+                    // get the current state
+                    const translation = this.state.translation;
 
+                    // push the data to current state
+                    translation.push(data);
+
+                    // set new state with the current element
+                    this.setState({ translation });
+
+                }).catch(err => {
+                    console.log('there is an error')
+                })
+            }            
         }
+
     }
 
     // this function use as function that would do translation task
     // if the user input more than word on input column
     getTranslation = (query) => {
         return axios.get(query)
-            .then( data => {              
-                return data.data[0].translations[0];
+            .then( data => {
+                if (data.data.length > 0)
+                    return data.data[0].translations[0];
+                else
+                    return query;
             })
             .catch(error => {
                 return query;
@@ -82,19 +94,21 @@ class Content extends Component {
     }
 
     inputChangedHandler = (e) => {
-        const { value } = e.target
+        let { value } = e.target
+
+        value = value.trim();
         
         // cheking if there is user input, not a space or blank input
-        if ( value.trim() ) {
+        if ( value ) {
             this.setState({ words: value });
             
             // checking if user input more than one word
             // system will translate this input one by one word
-            if (value.trim().includes(' ')) {
+            if (value.includes(' ')) {
 
                 this.setState({ type: [], translation: [] }); 
 
-                this.getDataMutiple(value);
+                this.getDataMutiple( value );
             }
 
             // if the input just one input, system will only this one word
