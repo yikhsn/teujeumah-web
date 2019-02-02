@@ -1,11 +1,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './NavbarBrand.css';
+import styled from 'styled-components';
 
-const NavbarBrand = (props) => {
-    return(
-        <Link to="/" className="Navbar__brand">Teujeumah</Link>
-    )
-}
+const StyledNavbarBrand = styled(Link)`
+    text-decoration: none;
+    font-size: 22px;
+    padding-top: 70px;
+    text-align: center;
+    color: #08b586;
 
-export default NavbarBrand;
+
+    :hover {
+    color: #07a47a;
+    }
+`;
+
+export default (props) => <StyledNavbarBrand to="/">Teujeumah</StyledNavbarBrand>

@@ -1,5 +1,5 @@
 import React from 'react';
-import './Translation.css';
+import StyledTranslation from './StyledTranslation';
 import capitalize from '../../../../helpers/capitalize_each_word';
 
 const Translation = (props) => {
@@ -33,7 +33,7 @@ const Translation = (props) => {
     if (translations.length > 0)
 
         return (
-            <div className="Translation">
+            <StyledTranslation>
                 <div className="Translation__title">
                     <span> Terjemahan dari - </span>
                     <span className="Translation__title--word"> { words } </span>
@@ -41,7 +41,7 @@ const Translation = (props) => {
 
                 { translationsRender }
 
-            </div>
+            </StyledTranslation>
         )
 
     else return null;

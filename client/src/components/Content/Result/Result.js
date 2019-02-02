@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './Result.css';
+import StyledResult from './StyledResult';
 import Box from './Box/Box';
 import Translation from './Box/Translation';
 
@@ -26,7 +26,7 @@ class Result extends Component{
         });
 
         return(
-            <div className="Result">
+            <StyledResult>
                 <div className="Result__left">
                     { renderBoxLeft }
                 </div>
@@ -36,7 +36,7 @@ class Result extends Component{
                         words = { words }
                     />
                 </div>
-            </div>
+            </StyledResult>
         )
     }
 }

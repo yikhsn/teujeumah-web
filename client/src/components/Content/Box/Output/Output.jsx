@@ -1,16 +1,16 @@
 import React from 'react';
-import './Output.css';
+
+import StyledOutput from './StyledOutput'
 
 const Output = (props) => {
-
     const {words, translation } = props.data;
     
     const output = translation.length ? translation.join(' ') : words;
 
     return(
-        <div className="Output">
+        <StyledOutput>
             <textarea type="text" value={output} readOnly />
-        </div>
+        </StyledOutput>
     )
 }
 

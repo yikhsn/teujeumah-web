@@ -1,18 +1,26 @@
 import React, { Component } from 'react';
-import './Navbar.css';
+import styled from 'styled-components';
+
 import NavbarMenu from './NavbarMenu/NavbarMenu';
 import NavbarBrand from './NavbarBrand/NavbarBrand';
 
+const StyledNavbar = styled.div`
+    width: 100%;
+    height: 60px;
+    background: #fff;
+    border-bottom: 1px solid #dedede;
+    padding: 18px 40px;
+
+`;
+
 class Navbar extends Component {
-  
-    
     render() {
         return (
-            <div className="Navbar">
+            <StyledNavbar>
                 <NavbarBrand />
                 <NavbarMenu link='/terms' text='Terms'/>
                 <NavbarMenu link='/about' text='Tentang'/>
-            </div>
+            </StyledNavbar>
         );
     }
 }

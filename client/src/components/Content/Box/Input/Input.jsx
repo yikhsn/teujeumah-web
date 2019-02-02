@@ -1,11 +1,20 @@
 import React from 'react';
-import './Input.css';
+
+import StyledInput from './StyledInput';
+import StyledInputClear from './StyledInputClear';
 
 const Input = (props) => {
+    const { words } = props.data;
+
     return(
-        <div className="Input">
-            <textarea name="word" id="word" onChange={ props.inputChanged } />
-        </div>
+        <StyledInput>
+            <StyledInputClear 
+                isWords={words} 
+                onClick={props.inputCleared } />
+            <textarea
+                value={words} 
+                onChange={ props.inputChanged } />
+        </StyledInput>
     )
 }
 
