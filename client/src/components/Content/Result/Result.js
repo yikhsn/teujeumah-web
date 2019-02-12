@@ -11,7 +11,7 @@ class Result extends Component{
         const renderBoxLeft = type.map( (cur, id) =>     
             <Box 
                 key         = { id }
-                words        = { words }
+                words       = { words }
                 word_type   = { cur.word_type }
                 synonyms    = { cur.synonyms }
                 examples    = { cur.examples }

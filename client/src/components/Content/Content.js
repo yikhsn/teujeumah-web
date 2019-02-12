@@ -19,106 +19,92 @@ class Content extends Component {
         type: []
     }
 
-    // this function will used to get translation and all words atribute 
-    // if user input just one word
-    getData = (query) => {
-        axios.get(query )
-            .then( data => {  
-                this.setState({ type: data.data });
+    setWords = (words) => this.setState({words});
 
-                this.setTranslation();
-            })
-            .catch(error => {
-                this.setState( { type: [] } );
+    setAllData = (data) => this.setState({ type: data });
 
-                this.setTranslation();
-            });
-    }
+    setTranslation = (data) => { 
+        const translation = this.state.translation;
 
-    // this funnction will be called if user input more than one word
-    // check and by space. each word will be split by space and each
-    // word would check their translations 
-    getDataMutiple =  (data) => {
-        let queries = data.split(' ').map( cur => cur.trim() );
-        
-        for (let query of queries) {
-            
-            // checking if the query (array element) ain't an empty string
-            if (query){
-
-                // run get the translation of the current query (arraay element)
-                this.getTranslation(query).then( (data) => {
-
-                    // get the current state
-                    const translation = this.state.translation;
-
-                    // push the data to current state
-                    translation.push(data);
-
-                    // set new state with the current element
-                    this.setState({ translation });
-
-                }).catch(err => {
-                    console.log('there is an error')
-                })
-            }            
+        if ( Array.isArray(data) ) {
+            translation.push(data[0].translations[0]);
+            this.setState({ translation });
+        }
+        else {
+            translation.push(data);            
+            this.setState( {translation} );
         }
     }
 
-    // this function use as function that would do translation task
-    // if the user input more than word on input column
-    getTranslation = (query) => {
+    // this function will used to get translation and all words atribute 
+    // if user input just one word
+    getData = (query) => {
         return axios.get(query)
             .then( data => {
-                if (data.data.length > 0) return data.data[0].translations[0];
-                else return query;
-            })
-            .catch(error => {
+                return data.data;
+            }).catch(err => {
                 return query;
             });
     }
 
-    // this function will see bunch of 'translation' array property in 'type' state
-    // from the backend, this function will set one 'translation' from that data
-    // as the main function the current 'words' data on the state  
-    setTranslation = () => { 
-        if ( this.state.type.length > 0) this.setState({
-                translation: [ this.state.type[0].translations[0]]
-            });
-        
-        else this.setState( { translation: [] } );
+    // function will be called if user input more than one word
+    getDataMutiple =  (data) => {
+
+        // split word user input into singular word and add it to an array
+        const queries = data.split(' ').map( query => query.trim() );
+
+        // loop each word in the array to get the the translation 1 by 1
+        for (let query of queries){
+
+            // get the translation of each word user input
+            this.getData(query)
+                .then(data => this.setTranslation(data) )
+                .catch(err => console.log('error when try to get data'));
+        }
     }
 
     // function to clear all data in state when user click button clear input
     inputClearedHandler = () => this.setState(this.initialState);
 
-    // main function, who will see all user input to do things base on this input
+    // main function, who will see all user input to do things base on that input
     inputChangedHandler = (e) => {
-        let { value } = e.target
+        const { value } = e.target;
+        const text = value.trim();
 
         // cheking if there is user input, not a space or blank input
-        if ( value.trim() ) {
-            this.setState({ words: value });
+        if ( text ) {
+
+            // set the words that user input to state, fully like user input
+            // not the text was trimed
+            this.setWords(value);
             
             // checking if user input more than one word
             // system will translate this input one by one word
-            if (value.includes(' ')) {
-
+            if (text.includes(' ')) {
                 this.setState({ type: [], translation: [] }); 
 
-                this.getDataMutiple( value );
+                this.getDataMutiple( text );
             }
 
-            // if the input just one input, system will only this one word
-            // with it all 'word' data atribut if they have
-            else this.getData(value);  
+            // if user only input one word
+            else {
+                // get all data by user input
+                this.getData(text).then((data) => {
+                    
+                    this.setState({ type: [], translation: [] });
+
+                    // if there is a respon from the request, set the respon to state
+                    if (Array.isArray(data)) this.setAllData(data);
+
+                    // set translation by data system get
+                    this.setTranslation(data);
+                });
+            } 
         }
         
         // if there is no user input, except just blank space
         // delete all the state have been set before
-        // we did this because currently backend cant check and send '404'
-        // message if there is no data find and send empty array (should fix later)
-        else this.setState( { type: [], translation: [], words: '' } )
+        else this.setState(this.initialState)
     }
 
     render() {
